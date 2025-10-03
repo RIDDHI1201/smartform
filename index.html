@@ -527,7 +527,7 @@
 
     <script>
         // 🔥🔥🔥 PASTE YOUR GOOGLE SCRIPT WEB APP URL HERE 🔥🔥🔥
-        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzhtCS7aI3spaevgwqlAvx2ys_IBW3zfKfssJmi3_voL_2UbPYTCjerUIR7puluEG4H/exec';
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby947LkHcNjAPwWpRKq1vTsqhw4hyhaExqflG0e8_4-g-svxejt3KaHHA0-wTgMFuOB/exec';
 
         let teachers = [];
         let teacherIdCounter = 1;
@@ -678,6 +678,7 @@
 
             fetch(GOOGLE_SCRIPT_URL, {
                 method: 'POST',
+                mode: 'no-cors',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(formData)
             })
@@ -744,4 +745,5 @@
         window.onload = init;
     </script>
 </body>
+
 </html>
