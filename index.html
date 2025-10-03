@@ -663,43 +663,40 @@
         }
 
         function handleSubmit() {
-            if (!validateForm()) return;
+    if (!validateForm()) return;
 
-            if (GOOGLE_SCRIPT_URL === 'PASTE_YOUR_URL_HERE') {
-                alert('⚠️ Please configure your Google Script URL first!\n\nFollow the setup guide to get your URL from Apps Script.');
-                return;
-            }
+    if (GOOGLE_SCRIPT_URL === 'PASTE_YOUR_URL_HERE') {
+        alert('⚠️ Please configure your Google Script URL first!\n\nFollow the setup guide to get your URL from Apps Script.');
+        return;
+    }
 
-            const submitBtn = document.getElementById('submitBtn');
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'Submitting...';
+    const submitBtn = document.getElementById('submitBtn');
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Submitting...';
 
-            const formData = getFormData();
+    const formData = getFormData();
 
-            fetch(GOOGLE_SCRIPT_URL, {
-                method: 'POST',
-                mode: 'no-cors',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(formData)
-            })
-            .then(res => res.json())
-            .then(data => {
-                if(data.status === 'success'){
-                    showMessage('✅ Your response has been submitted successfully!', true);
-                    setTimeout(resetForm, 2000);
-                } else {
-                    showMessage('❌ Error submitting the form: ' + (data.message || 'Try again'), false);
-                }
-            })
-            .catch(err => {
-                console.error('Fetch error:', err);
-                showMessage('❌ Submission failed. Please check your internet connection and try again.', false);
-            })
-            .finally(() => {
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'Submit Request';
-            });
-        }
+    fetch(GOOGLE_SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+    })
+    .then(() => {
+        // With no-cors mode, we can't read the response
+        // But if fetch doesn't throw an error, the request was sent successfully
+        showMessage('✅ Your response has been submitted successfully!', true);
+        setTimeout(resetForm, 2000);
+    })
+    .catch(err => {
+        console.error('Fetch error:', err);
+        showMessage('❌ Submission failed. Please check your internet connection and try again.', false);
+    })
+    .finally(() => {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit Request';
+    });
+}
 
         function getFormData() {
             return {
@@ -747,4 +744,5 @@
 </body>
 
 </html>
+
 
