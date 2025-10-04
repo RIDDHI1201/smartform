@@ -318,27 +318,27 @@
             </div>
 
             <div class="form-group">
-                <label>Designation <span class="required">*</span></label>
-                <div class="radio-group">
-                    <label class="radio-label">
-                        <input type="radio" name="designation" value="Principal">
-                        <span>Principal</span>
-                    </label>
-                    <label class="radio-label">
-                        <input type="radio" name="designation" value="HOD">
-                        <span>HOD</span>
-                    </label>
-                    <label class="radio-label">
-                        <input type="radio" name="designation" value="TGT/PGT">
-                        <span>TGT/PGT</span>
-                    </label>
-                    <label class="radio-label">
-                        <input type="radio" name="designation" value="Other">
-                        <span>Other</span>
-                    </label>
-                </div>
-            </div>
-
+    <label>Designation <span class="required">*</span></label>
+    <div class="radio-group">
+        <label class="radio-label">
+            <input type="radio" name="designation" value="Principal" onclick="hideOtherDesignation()">
+            <span>Principal</span>
+        </label>
+        <label class="radio-label">
+            <input type="radio" name="designation" value="HOD" onclick="hideOtherDesignation()">
+            <span>HOD</span>
+        </label>
+        <label class="radio-label">
+            <input type="radio" name="designation" value="TGT/PGT" onclick="hideOtherDesignation()">
+            <span>TGT/PGT</span>
+        </label>
+        <label class="radio-label">
+            <input type="radio" name="designation" value="Other" onclick="showOtherDesignation()">
+            <span>Other</span>
+        </label>
+    </div>
+    <input type="text" id="otherDesignationInput" class="hidden" placeholder="Please specify your designation" style="margin-top: 0.75rem;">
+</div>
             <div class="form-group">
                 <label>School Name <span class="required">*</span></label>
                 <input type="text" id="schoolName" placeholder="Enter school name">
@@ -565,9 +565,16 @@
                 return false;
             }
             if (!designation || designation === '') {
-                alert('Please select your designation');
-                return false;
-            }
+    alert('Please select your designation');
+    return false;
+}
+if (designation === 'Other') {
+    const otherDesignation = document.getElementById('otherDesignationInput').value.trim();
+    if (!otherDesignation) {
+        alert('Please specify your designation');
+        return false;
+    }
+}
             if (!schoolName) {
                 alert('Please enter school name');
                 return false;
@@ -647,7 +654,9 @@
             return {
                 name: document.getElementById('name').value.trim(),
                 phone: document.getElementById('phone').value.trim(),
-                designation: getRadioValue('designation'),
+                designation: getRadioValue('designation') === 'Other' 
+    ? document.getElementById('otherDesignationInput').value.trim() 
+    : getRadioValue('designation'),
                 schoolName: document.getElementById('schoolName').value.trim(),
                 schoolAddress: document.getElementById('schoolAddress').value.trim(),
                 specimens: {
@@ -684,11 +693,21 @@
             addTeacher();
         }
 
+        function showOtherDesignation() {
+            document.getElementById('otherDesignationInput').classList.remove('hidden');
+        }
+
+        function hideOtherDesignation() {
+            document.getElementById('otherDesignationInput').classList.add('hidden');
+            document.getElementById('otherDesignationInput').value = '';
+        }
+
         window.onload = init;
     </script>
 </body>
 
 </html>
+
 
 
 
